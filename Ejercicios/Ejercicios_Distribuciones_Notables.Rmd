@@ -1,0 +1,48 @@
+---
+title: "Ejercicios disribuciones notables."
+author: "Martí Paredes"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+  pdf_document: default
+---
+
+### Ejercicio: Acceso aleatorio a un sistema con triple clave.
+
+Tenemos un sistema informatico que genera claves de 3 digitos, des de 000 hasta 999, un total de 1000 claves diferentes. Como la seguridad así es muy facil de adivinar se decide que se deben introducir 3 claves seguidas correctas. Supongamos que cada vez que ponemos dos claves olvidamos el resultado y seguimos poniendo claves al azar hasta adivinar la contraseña.
+
+Sea $X$ la v.a. que nos da el número de fallos antes de entrar al sistema.
+
+* Cual es la distribucion de probabilidad de $X$?
+* Cual es la funcion de proabilidad y de distribucion de $X$?
+* Cual es la proabilidad de fallar 150 veces antes de acceder al sistema ?
+* Cual es la probabilidad de fallar más de 150 veces antes de entrar al sistema?
+* Cual es el número de fallos esperados antes de acceder al sistema? Y su varianza?
+
+#### **1. Distribución de $X$.**
+Bajo estas condiciones tenemos que la probabilidad de éxito es de $\dfrac{1}{1000} = 0.001$, como cada vez olvidamos la clave introducida cada intento sera independiente del anterior. Además debemos repetir el experimento 3 veces.
+
+Por lo tanto la v.a. $X$ sigue una distribución $BN (n=3,prob=0.001)$
+
+#### **2. Función de proabilidad y de distribucion de $X$.**
+$$P_X(3) = P(X=3) =\begin{cases}\ {k+2\choose 2}(0.999)^k0.001^3 & \mbox{si k = 0,1,2 ...} \\ \ \ 0 & \mbox{otro caso} \end{cases}$$
+$$F_X(3) = P(X\leq3) =\begin{cases}\ \ 0 & \mbox{si < 0} \\ \sum_{i=0}^k {i+2\choose 2}(0.999)^{i+2}0.001^3 & \mbox{} \end{cases}$$
+
+#### **3. Proabilidad de fallar 150 veces antes de acceder al sistema.**
+
+La probabilida de fallar 150 veces antes de acceder es de :
+```{r} 
+dnbinom(150,size=3,prob=0.001)
+```
+#### **4. Proabilidad de fallar más de 150 veces antes de acceder al sistema.**
+
+La probabilida de fallar mas de 150 veces antes de acceder es de :
+```{r} 
+1 - dnbinom(150,size=3,prob=0.001) ## lower.tail = FALSE 
+```
+#### **5. Esperanza y varianza.**
+$$E(X) = \dfrac{1-p}{p} = \dfrac{0.999}{0.001} = 999$$
+$$Var(X) = \dfrac{1-p}{p^2} = \dfrac{0.999}{0.001^2} = 999000$$
+$$\sigma = \sqrt{Var(X)} = \sqrt{999000} = 999.4999$$
+\newpage
